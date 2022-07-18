@@ -40,7 +40,7 @@ function UBCMap.place(startPosition)
         Debug.log(UBCMap.storage:get_int("generating"))
         minetest.chat_send_all("Placing UBC Map")
     else
-        startPosition = UBCMap.storage:get_string(minetest.deserialize("startPosition"))
+        startPosition = minetest.deserialize(UBCMap.storage:get_string("startPosition"))
         minetest.chat_send_all("Previous minetest instance crashed while placing UBC Map... Trying again from position: " .. startingValue)
     end
 
@@ -104,6 +104,9 @@ minetest.after(0, function()
     Debug.log("Checking if the UBC map placement needs to resume...")
     local status = UBCMap.storage:get_int("generating")
     Debug.log("Status: " .. tostring(status))
+    Debug.log("Starting position: " .. UBCMap.storage:get_string("startPosition"))
+    Debug.log("Placement progress: " .. UBCMap.storage:get_int("placementProgress"))
+
     if (status == 1) then
         Debug.log(tostring(status) .. ": Resuming UBC map placement...")
         local pos = minetest.deserialize(UBCMap.storage:get_string("placementPos"))
