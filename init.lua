@@ -36,6 +36,8 @@ function UBCMap.place(startPosition)
         startingValue = 1
         UBCMap.storage:set_string("startPosition", minetest.serialize(startPosition))
         UBCMap.storage:set_int("generating", 1)
+
+        Debug.log(UBCMap.storage:get_int("generating"))
         minetest.chat_send_all("Placing UBC Map")
     else
         startPosition = UBCMap.storage:get_string(minetest.deserialize("startPosition"))
@@ -101,6 +103,7 @@ dofile(UBCMap.path .. "/integration.lua")
 minetest.after(0, function()
     Debug.log("Checking if the UBC map placement needs to resume...")
     local status = UBCMap.storage:get_int("generating")
+    Debug.log("Status: " .. tostring(status))
     if (status == 1) then
         Debug.log(tostring(status) .. ": Resuming UBC map placement...")
         local pos = minetest.deserialize(UBCMap.storage:get_string("placementPos"))
